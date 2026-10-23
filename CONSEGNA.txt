@@ -1,0 +1,8 @@
+Team: SexyIpa
+
+Immagine VM (OneDrive): <DA INSERIRE>
+
+Comando di avvio:
+/home/tablut/tablut/runmyplayer.sh <WHITE|BLACK> <TIMEOUT> <SERVER_IP>
+
+Parametri opzionali: <DA DOCUMENTARE>

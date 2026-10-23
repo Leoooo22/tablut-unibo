@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+}
+
+group = 'it.unibo.tablut.sexyipa'
+
+def teacherSrc = 'external/TablutCompetition/Tablut'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Gson dal repository dei docenti: la build non scarica dipendenze runtime
+    implementation files("${teacherSrc}/lib/gson-2.2.2.jar")
+
+    testImplementation platform('org.junit:junit-bom:5.11.3')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+sourceSets {
+    main {
+        java {
+            // Codice dei docenti compilato dal submodule (sola lettura): solo i package servono a runtime
+            srcDir "${teacherSrc}/src"
+            include 'it/unibo/tablut/**'
+            include 'it/unibo/ai/didattica/competition/tablut/client/TablutClient.java'
+            include 'it/unibo/ai/didattica/competition/tablut/domain/**'
+            include 'it/unibo/ai/didattica/competition/tablut/exceptions/**'
+            include 'it/unibo/ai/didattica/competition/tablut/util/**'
+            // regole non Ashton, codificate ISO-8859-1: non servono
+            exclude '**/GameTablut.java', '**/GameModernTablut.java'
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+    maxHeapSize = '2g'
+}
+
+// Fat JAR: un unico file eseguibile con tutte le dipendenze
+jar {
+    archiveFileName = 'SexyIpa.jar'
+    manifest {
+        attributes 'Main-Class': 'it.unibo.tablut.sexyipa.client.Main'
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

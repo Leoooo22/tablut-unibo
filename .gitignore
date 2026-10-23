@@ -1,0 +1,17 @@
+build/
+.gradle/
+*.log
+logs/
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+out/
+bin/
+.DS_Store
+*.ova
+*.vdi
+*.vmdk
+CLAUDE.md
