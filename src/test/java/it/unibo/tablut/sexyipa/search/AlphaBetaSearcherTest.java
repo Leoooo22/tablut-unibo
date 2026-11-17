@@ -118,6 +118,63 @@ class AlphaBetaSearcherTest {
     }
 
     @Test
+    void bestMoveRespectsDeadlineAndRestoresBoard() {
+        AlphaBetaSearcher searcher = new AlphaBetaSearcher(eval);
+        BoardAshton b = new BoardAshton();
+        byte[] before = new byte[81];
+        for (int i = 0; i < 81; i++) {
+            before[i] = b.cell(i);
+        }
+        long hashBefore = b.hash();
+
+        long start = System.nanoTime();
+        int move = searcher.bestMove(b, start + 300_000_000L); // 300 ms
+        long elapsedMs = (System.nanoTime() - start) / 1_000_000;
+
+        assertTrue(elapsedMs < 400, "ha impiegato " + elapsedMs + " ms");
+        assertTrue(searcher.completedDepth() >= 1);
+        // La ricerca è stata interrotta a metà: la scacchiera deve essere tornata identica
+        for (int i = 0; i < 81; i++) {
+            assertEquals(before[i], b.cell(i));
+        }
+        assertEquals(hashBefore, b.hash());
+        int[] legal = new int[300];
+        int n = b.generateMoves(legal);
+        assertTrue(java.util.Arrays.stream(legal, 0, n).anyMatch(m -> m == move), "mossa illegale");
+    }
+
+    @Test
+    void bestMoveReturnsLegalMoveEvenWithExpiredDeadline() {
+        AlphaBetaSearcher searcher = new AlphaBetaSearcher(eval);
+        BoardAshton b = new BoardAshton();
+        int move = searcher.bestMove(b, System.nanoTime() - 1);
+        int[] legal = new int[300];
+        int n = b.generateMoves(legal);
+        assertTrue(java.util.Arrays.stream(legal, 0, n).anyMatch(m -> m == move));
+    }
+
+    @Test
+    void bestMoveStopsEarlyOnForcedWin() {
+        BoardAshton b = board(true,
+            ".........",
+            ".K.......",
+            ".........",
+            ".........",
+            ".........",
+            ".........",
+            ".........",
+            "....B....",
+            ".........");
+        AlphaBetaSearcher searcher = new AlphaBetaSearcher(eval);
+        long start = System.nanoTime();
+        int move = searcher.bestMove(b, start + 10_000_000_000L); // 10 s, ma deve fermarsi subito
+        assertTrue(System.nanoTime() - start < 1_000_000_000L);
+        assertEquals(1, searcher.completedDepth());
+        b.makeMove(move);
+        assertEquals(Board.WHITE_WINS, b.result());
+    }
+
+    @Test
     void blackBlocksEscapeInOne() {
         // Il re in b3 ha una sola uscita libera, a3 (b1 è occupata, c3 bloccata dal bianco): il nero deve chiuderla
         BoardAshton b = board(false,
