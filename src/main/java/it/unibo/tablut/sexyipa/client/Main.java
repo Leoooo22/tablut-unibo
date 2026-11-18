@@ -32,7 +32,15 @@ public final class Main {
         String serverIp = args[2].trim();
 
         System.out.println(PLAYER_NAME + " " + role + " timeout=" + timeout + "s server=" + serverIp);
-        // TODO (Fase 1): avviare il player che estende TablutClient
+
+        try {
+            SexyIpaClient client = new SexyIpaClient(role, PLAYER_NAME, timeout, serverIp);
+            client.run();
+        } catch (Exception e) {
+            System.err.println("Errore fatale all'avvio del client:");
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     private static void fail(String reason) {
