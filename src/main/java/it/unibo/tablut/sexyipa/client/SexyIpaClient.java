@@ -15,6 +15,7 @@ import it.unibo.tablut.sexyipa.engine.Tables;
 import it.unibo.tablut.sexyipa.eval.Evaluator;
 import it.unibo.tablut.sexyipa.eval.AshtonEvaluator;
 import it.unibo.tablut.sexyipa.search.AlphaBetaSearcher;
+import it.unibo.tablut.sexyipa.search.PositionHistory;
 import it.unibo.tablut.sexyipa.search.Searcher;
 import it.unibo.tablut.sexyipa.search.TimeManager;
 
@@ -34,13 +35,19 @@ public class SexyIpaClient extends TablutClient {
     private final int timeoutSeconds;
     private final Searcher searcher;
     private boolean firstMove = true;
+    /** Posizioni comparse dopo ogni mossa: servono a riconoscere il pareggio per ripetizione. */
+    private final PositionHistory history = new PositionHistory();
+    /** Il primo stato ricevuto è la posizione iniziale, che il server non conta tra le ripetizioni. */
+    private boolean firstState = true;
 
     public SexyIpaClient(String role, String name, int timeout, String serverIp)
             throws UnknownHostException, IOException {
         super(role, name, timeout, serverIp);
         this.timeoutSeconds = timeout;
         Evaluator evaluator = new AshtonEvaluator();
-        this.searcher = new AlphaBetaSearcher(evaluator);
+        AlphaBetaSearcher alphaBeta = new AlphaBetaSearcher(evaluator);
+        alphaBeta.setGameHistory(history);
+        this.searcher = alphaBeta;
     }
 
     @Override
@@ -65,6 +72,7 @@ public class SexyIpaClient extends TablutClient {
                 e.printStackTrace();
                 System.exit(1);
             }
+            long receivedNanos = System.nanoTime();
 
             State state = getCurrentState();
             Turn turn = state.getTurn();
@@ -85,14 +93,17 @@ public class SexyIpaClient extends TablutClient {
                 System.exit(0);
             }
 
+            // Converti lo stato del server nella rappresentazione interna e registralo nella storia
+            // (tutti gli stati tranne quello iniziale, come fa il server per il pareggio)
+            BoardAshton board = fromServerState(state);
+            if (!firstState) {
+                history.add(board.hash());
+            }
+            firstState = false;
+
             // È il mio turno?
             if ((getPlayer().equals(Turn.WHITE) && turn.equals(Turn.WHITE))
                     || (getPlayer().equals(Turn.BLACK) && turn.equals(Turn.BLACK))) {
-
-                long receivedNanos = System.nanoTime();
-
-                // Converti lo stato del server nella rappresentazione interna
-                BoardAshton board = fromServerState(state);
 
                 // Calcola la scadenza
                 long deadline = TimeManager.deadline(receivedNanos, timeoutSeconds, firstMove);
