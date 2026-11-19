@@ -39,7 +39,7 @@ public class SexyIpaClient extends TablutClient {
             throws UnknownHostException, IOException {
         super(role, name, timeout, serverIp);
         this.timeoutSeconds = timeout;
-        Evaluator evaluator = new SimpleEvaluator();
+        Evaluator evaluator = new AshtonEvaluator();
         this.searcher = new AlphaBetaSearcher(evaluator);
     }
 
