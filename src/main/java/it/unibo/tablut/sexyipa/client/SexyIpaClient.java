@@ -13,7 +13,7 @@ import it.unibo.tablut.sexyipa.engine.Board;
 import it.unibo.tablut.sexyipa.engine.BoardAshton;
 import it.unibo.tablut.sexyipa.engine.Tables;
 import it.unibo.tablut.sexyipa.eval.Evaluator;
-import it.unibo.tablut.sexyipa.eval.SimpleEvaluator;
+import it.unibo.tablut.sexyipa.eval.AshtonEvaluator;
 import it.unibo.tablut.sexyipa.search.AlphaBetaSearcher;
 import it.unibo.tablut.sexyipa.search.Searcher;
 import it.unibo.tablut.sexyipa.search.TimeManager;
