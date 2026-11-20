@@ -1,8 +1,22 @@
 Team: SexyIpa
+Nome del player (comunicato al server): SexyIpa
 
-Immagine VM (OneDrive): <DA INSERIRE>
+Immagine VM (OneDrive): https://liveunibo-my.sharepoint.com/:u:/g/personal/leonardo_lorenzon_studio_unibo_it/IQBRbC-s0PD5RYDMB-RSoOoVAbpgGlJKEUaUHNcX_d4X5bg?e=IZBE14
+File: SexyIpa-Tablut.ova (VirtualBox, da importare con File > Importa appliance)
+SHA-256: 8f9b7ab2a87f5febef4cd0b8c4ad59a0826cb63deb799adec54c13df36813b88
+Credenziali VM: tablut / tablut (invariate)
 
 Comando di avvio:
 /home/tablut/tablut/runmyplayer.sh <WHITE|BLACK> <TIMEOUT> <SERVER_IP>
 
-Parametri opzionali: <DA DOCUMENTARE>
+Esempio:
+/home/tablut/tablut/runmyplayer.sh WHITE 60 192.168.20.101
+
+- Il ruolo non distingue maiuscole e minuscole (WHITE, white, wHitE).
+- Il timeout è in secondi; il player risponde entro il timeout con un margine di sicurezza.
+- L'indirizzo IP del server è sempre quello passato come terzo parametro.
+
+Parametri opzionali: nessuno.
+
+Dipendenze: OpenJDK 17 (openjdk-17-jre-headless) è installato nella VM.
+Il player è un unico JAR (/home/tablut/tablut/SexyIpa.jar) e non richiede connessione a internet.
