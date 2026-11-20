@@ -63,7 +63,7 @@ Se muove il Bianco e il re ha una via libera, l'evaluator esce prima di calcolar
 
 Una direzione del re è una via di fuga libera se tutte le caselle fino al bordo sono vuote e nessuna è un campo o il castello. In quel caso l'ultima casella è sul bordo e non è un campo, cioè è un'uscita.
 
-**Gli angoli.** Il motore marca come uscite anche i 4 angoli (`Tables`, "punto A"), mentre la slide 5 della presentazione no. Per questo evaluator la differenza non conta. Una linea dal re finisce su un angolo solo se il re è già sul bordo, cioè ha già vinto. Inoltre le caselle accanto a ogni angolo sono tutte uscite, quindi in una partita in corso il re non arriva mai su un angolo.
+**Gli angoli.** Il motore marca come uscite anche i 4 angoli (`Tables`), mentre la slide 5 della presentazione no. Per questo evaluator la differenza non conta. Una linea dal re finisce su un angolo solo se il re è già sul bordo, cioè ha già vinto. Inoltre le caselle accanto a ogni angolo sono tutte uscite, quindi in una partita in corso il re non arriva mai su un angolo.
 
 ### 3.2 Re catturabile con una mossa (`kingCapturable`)
 

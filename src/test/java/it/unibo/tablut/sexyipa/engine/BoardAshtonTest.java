@@ -51,7 +51,7 @@ class BoardAshtonTest {
 
     @Test
     void blackInCampMovesThroughOwnCamp() {
-        // Punto D: a4 -> a7 attraversando a5 e a6 dello stesso campo
+        // a4 -> a7 attraversando a5 e a6 dello stesso campo
         BoardAshton b = board(false,
             ".........",
             ".........",
@@ -99,7 +99,7 @@ class BoardAshtonTest {
 
     @Test
     void whiteCapturesAgainstCampButNotCentralCamp() {
-        // Punto C: b4 contro a4 (campo laterale) si cattura
+        // b4 contro a4 (campo laterale) si cattura
         BoardAshton b = board(true,
             ".........",
             ".........",
@@ -131,7 +131,7 @@ class BoardAshtonTest {
 
     @Test
     void blackCapturesAgainstCastleOccupiedByKing() {
-        // Punto F: e4 stretto tra e3 e il castello con il re sopra
+        // e4 stretto tra e3 e il castello con il re sopra
         BoardAshton b = board(false,
             ".........",
             ".........",

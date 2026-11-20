@@ -1,7 +1,7 @@
 package it.unibo.tablut.sexyipa.search;
 
 /**
- * Calcolo della scadenza per una mossa (CLAUDE.md, sezione 6.3):
+ * Calcolo della scadenza per una mossa:
  * deadline = ricezione_stato + timeout - margine, margine = max(2 s, 10% del timeout).
  */
 public final class TimeManager {

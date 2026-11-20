@@ -3,8 +3,8 @@ package it.unibo.tablut.sexyipa.eval;
 import it.unibo.tablut.sexyipa.engine.Board;
 
 /**
- * Valutazione provvisoria per sbloccare la ricerca (CLAUDE.md, sezione 6.2):
- * differenza di pezzi + distanza del re dal bordo. Da sostituire con quella del Membro C.
+ * Valutazione provvisoria per sbloccare la ricerca:
+ * differenza di pezzi + distanza del re dal bordo.
  */
 public class SimpleEvaluator implements Evaluator {
 

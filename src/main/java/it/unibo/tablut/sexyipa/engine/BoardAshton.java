@@ -3,7 +3,7 @@ package it.unibo.tablut.sexyipa.engine;
 import static it.unibo.tablut.sexyipa.engine.Tables.*;
 
 /**
- * Scacchiera Ashton. Le regole replicano GameAshtonTablut dei docenti (CLAUDE.md, sezione 6.1).
+ * Scacchiera Ashton. Le regole replicano GameAshtonTablut dei docenti.
  * Le ripetizioni (pareggio) non sono gestite qui: le rileva la ricerca tramite hash().
  */
 public class BoardAshton implements Board {
@@ -95,7 +95,7 @@ public class BoardAshton implements Board {
                     if (board[to] != EMPTY || CELL_TYPE[to] == CASTLE) {
                         break;
                     }
-                    // Un nero ancora nel campo di partenza si muove solo dentro lo stesso gruppo (punto D)
+                    // Un nero ancora nel campo di partenza si muove solo dentro lo stesso gruppo
                     if (CELL_TYPE[to] == CAMP && CAMP_GROUP[to] != group) {
                         break;
                     }

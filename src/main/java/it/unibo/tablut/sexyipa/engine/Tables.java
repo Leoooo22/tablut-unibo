@@ -36,7 +36,7 @@ public final class Tables {
 
     /**
      * Celle che fanno da incudine quando cattura il Bianco, a prescindere dal contenuto:
-     * castello e campi, esclusi i 4 centrali a5 e1 e9 i5 (punto C).
+     * castello e campi, esclusi i 4 centrali a5 e1 e9 i5.
      */
     public static final boolean[] ANVIL_FOR_WHITE = new boolean[CELLS];
     /** Celle che fanno da incudine quando cattura il Nero: castello e tutti i campi. */
@@ -84,7 +84,7 @@ public final class Tables {
 
         CELL_TYPE[CASTLE_POS] = CASTLE;
 
-        // Uscite: qualunque cella di bordo che non sia un campo, angoli compresi (punto A)
+        // Uscite: qualunque cella di bordo che non sia un campo, angoli compresi
         for (int i = 0; i < CELLS; i++) {
             int r = row(i), c = col(i);
             boolean border = r == 0 || r == SIZE - 1 || c == 0 || c == SIZE - 1;
